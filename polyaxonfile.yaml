@@ -10,4 +10,4 @@ build:
     - pip install scikit-learn
     
 run:
-  cmd: python model.py
+  cmd: python model.py --num_epochs=600

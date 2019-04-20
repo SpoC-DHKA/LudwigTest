@@ -80,7 +80,12 @@ def evaluate(true_y, pred_y):
     Cr = CR / Z
     Fa = FA / Z
     Fr = FR / Z
-    
+
+    experiment.log_metrics(Ca=Ca)
+    experiment.log_metrics(Cr=Cr)
+    experiment.log_metrics(Fa=Fa)
+    experiment.log_metrics(Fr=Fr)
+
     P = Ca / (Ca + Fa)
     R = Ca / (Ca + Fr)
     SA = Ca + Cr
@@ -90,6 +95,8 @@ def evaluate(true_y, pred_y):
     RFa = Fa / (Cr + Fa)
     
     D = IncorrectRejectionRate / CorrectRejectionRate
+    experiment.log_metrics(D=D)
+
     Da = RCa / RFa
     Df = math.sqrt((Da*D))
     return Df
@@ -107,7 +114,7 @@ if __name__ == '__main__':
 
     parser.add_argument(
         '--learning_rate',
-        default=0.001,
+        default=0.1,
         type=float)
     
     parser.add_argument(
@@ -128,10 +135,10 @@ dropout = arguments.pop('dropout')
 num_epochs = arguments.pop('num_epochs')
 
 # 1. Load Data
-train_x = np.loadtxt('/data/shared-task/vec_train_x.csv' ,delimiter=',',usecols=range(11)[1:])
-train_y = clearY(np.loadtxt('/data/shared-task/vec_train_y.csv', delimiter=',',usecols=range(4)[1:]))
-dev_test_x = np.loadtxt('/data/shared-task/vec_test_x.csv', delimiter=',',usecols=range(11)[1:])
-dev_test_y = np.loadtxt('/data/shared-task/vec_test_y.csv', delimiter=',',usecols=range(4)[1:])
+train_x = np.loadtxt('/data/shared-task/berkling_train_x_DFKI.csv' ,delimiter=',',usecols=range(11)[1:])
+train_y = clearY(np.loadtxt('/data/shared-task/berkling_test_y_DFKI.csv', delimiter=',',usecols=range(4)[1:]))
+dev_test_x = np.loadtxt('/data/shared-task/berkling_train_x_DFKI.csv', delimiter=',',usecols=range(11)[1:])
+dev_test_y = np.loadtxt('/data/shared-task/berkling_test_y_DFKI.csv', delimiter=',',usecols=range(4)[1:])
 
 experiment.log_data_ref(data=train_x, data_name='train_x')
 experiment.log_data_ref(data=train_y, data_name='train_y')
